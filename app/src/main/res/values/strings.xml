@@ -5,7 +5,7 @@
     <string name="btn.search">بحث</string>
     <string name="copyright">ksa kol yom 1.0 ©%1$s\nAbanoub Milad Hanna\nabanoubcs@gmail.com</string>
     <string name="msg_no_stories">لا توجد قصص </string>
-    <string name="msg_no_internet">تأكد من اتصالك بالانترنت</string>
+    <string name="msg_no_internet">تأكد من اتصالك بالانترنت - لا توجد قصص</string>
     <string name="msg_no_results">لا توجد نتائج بحث</string>
     <string name="msg_added_fav">تم الاضافة الى القصص المُفضلة</string>
     <string name="hint_search">ابحث عن ...</string>
@@ -17,6 +17,10 @@
     <string name="sub_search_content">بحث فى محتوى القصص</string>
     <string name="sub_search_dates">بحث بيوم القصة</string>
 
+    <string name="likes">اعجبنى</string>
+    <string name="shares">مشاركة</string>
+    <string name="comments">تعليق</string>
+
     <string-array name="main_menu">
         <item>@string/sub_stories</item>
         <item>@string/sub_fav</item>
@@ -24,8 +28,8 @@
         <item>@string/sub_read</item>
         <item>@string/sub_search_content</item>
         <item>@string/sub_search_dates</item>
-        <item>الابلاغ عن مشكلة / اقتراحات</item>
         <item>تابعنا على فيس بوك</item>
+        <item>الابلاغ عن مشكلة / اقتراحات</item>
         <item>تواصل مع المُطور</item>
         <item>تقييم قصة كل يوم</item>
     </string-array>
@@ -37,8 +41,8 @@
         <item>@mipmap/ic_read</item>
         <item>@mipmap/ic_search</item>
         <item>@mipmap/ic_dates</item>
-        <item>@mipmap/ic_report</item>
         <item>@mipmap/ic_like</item>
+        <item>@mipmap/ic_report</item>
         <item>@mipmap/ic_contact</item>
         <item>@mipmap/ic_rate</item>
     </string-array>

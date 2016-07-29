@@ -56,6 +56,7 @@ public class FragmentDisplayStories extends Fragment {
                     getActivity().finish();
                     Toast.makeText(getActivity(),
                             R.string.msg_no_internet, Toast.LENGTH_SHORT).show();
+
                 } else {
                     paging_allowed = true;
                     if (previousPosition < stories.size())
@@ -66,6 +67,7 @@ public class FragmentDisplayStories extends Fragment {
                     }
                 }
             } else {
+                getActivity().finish();
                 Toast.makeText(getActivity(),
                         R.string.msg_no_internet, Toast.LENGTH_SHORT).show();
             }

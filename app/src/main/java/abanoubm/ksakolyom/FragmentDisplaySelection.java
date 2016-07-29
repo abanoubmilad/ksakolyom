@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -21,7 +22,6 @@ public class FragmentDisplaySelection extends Fragment {
     private static final String ARG_DUAL_MODE = "dual";
     private static final String ARG_SELECTION = "sel";
     private int selection;
-    private View msg;
 
     private class GetAllTask extends AsyncTask<Void, Void, ArrayList<Story>> {
         @Override
@@ -38,7 +38,9 @@ public class FragmentDisplaySelection extends Fragment {
             if (stories != null) {
                 mAdapter.addAll(stories);
                 if (stories.size() == 0) {
-                    msg.setVisibility(View.VISIBLE);
+                    getActivity().finish();
+                    Toast.makeText(getActivity(),
+                            R.string.msg_no_stories, Toast.LENGTH_SHORT).show();
                 } else {
                     if (previousPosition < stories.size())
                         lv.setSelection(previousPosition);
@@ -69,8 +71,6 @@ public class FragmentDisplaySelection extends Fragment {
         View root = inflater.inflate(R.layout.fragment_display_stories, container, false);
 
         lv = (ListView) root.findViewById(R.id.list);
-
-        msg = root.findViewById(R.id.msg);
 
         mAdapter = new StoryDisplayListAdapter(getActivity(), new ArrayList<Story>(0));
         lv.setAdapter(mAdapter);

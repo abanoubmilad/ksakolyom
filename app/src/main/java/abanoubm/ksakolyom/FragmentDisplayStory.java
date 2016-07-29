@@ -25,7 +25,7 @@ public class FragmentDisplayStory extends Fragment {
     private static final String ARG_ID = "id";
     private boolean isFav = false;
 
-    private TextView content, dateView;
+    private TextView content, dateView,shares,likes,comments;
     private ImageView photo, fav, check;
 
     private DB mDB;
@@ -50,6 +50,10 @@ public class FragmentDisplayStory extends Fragment {
         dateView = (TextView) root.findViewById(R.id.date);
 
 
+        shares = (TextView) root.findViewById(R.id.shares);
+        comments = (TextView) root.findViewById(R.id.comments);
+        likes = (TextView) root.findViewById(R.id.likes);
+
         fav = (ImageView) root.findViewById(R.id.fav);
         check = (ImageView) root.findViewById(R.id.check);
 
@@ -63,7 +67,7 @@ public class FragmentDisplayStory extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         new GetTask().execute();
-
+        new GetPostDesTask().execute();
 
         fav.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,7 +75,7 @@ public class FragmentDisplayStory extends Fragment {
                 new UpdateFavTask().execute();
             }
         });
-        view.findViewById(R.id.fb).setOnClickListener(new View.OnClickListener() {
+        view.findViewById(R.id.share_down).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (!Utility.isNetworkAvailable(getContext())) {
@@ -83,12 +87,30 @@ public class FragmentDisplayStory extends Fragment {
                         getActivity().getPackageManager().getPackageInfo(
                                 "com.facebook.katana", 0);
                         startActivity(new Intent(Intent.ACTION_VIEW, Uri
-                                .parse("fb://post/" + id)).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
-                                | Intent.FLAG_ACTIVITY_NEW_TASK));
+                                .parse("fb://post/" + id)));
                     } catch (Exception e) {
                         startActivity(new Intent(Intent.ACTION_VIEW, Uri
-                                .parse("https://www.facebook.com/ksa.kol.yom/" + id)).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
-                                | Intent.FLAG_ACTIVITY_NEW_TASK));
+                                .parse("https://www.facebook.com/ksa.kol.yom/" + id)));
+                    }
+                }
+            }
+        });
+        view.findViewById(R.id.share_up).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!Utility.isNetworkAvailable(getContext())) {
+
+                    Toast.makeText(getActivity(),
+                            R.string.msg_no_internet, Toast.LENGTH_SHORT).show();
+                } else {
+                    try {
+                        getActivity().getPackageManager().getPackageInfo(
+                                "com.facebook.katana", 0);
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri
+                                .parse("fb://post/" + id)));
+                    } catch (Exception e) {
+                        startActivity(new Intent(Intent.ACTION_VIEW, Uri
+                                .parse("https://www.facebook.com/ksa.kol.yom/" + id)));
                     }
                 }
             }
@@ -137,6 +159,29 @@ public class FragmentDisplayStory extends Fragment {
                 check.setVisibility(View.VISIBLE);
             } else if (mStory.getRead().equals("1")) {
                 check.setVisibility(View.VISIBLE);
+            }
+
+        }
+    }
+
+    private class GetPostDesTask extends AsyncTask<Void, Void, String[]> {
+
+        @Override
+        protected void onPreExecute() {
+        }
+
+        @Override
+        protected String[] doInBackground(Void... params) {
+            return Utility.getPostDes(id);
+        }
+
+
+        @Override
+        protected void onPostExecute(String[] arr) {
+            if (arr != null) {
+                likes.setText(arr[0]);
+                comments.setText(arr[1]);
+                shares.setText(arr[2]);
             }
 
         }

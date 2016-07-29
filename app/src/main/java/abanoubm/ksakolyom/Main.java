@@ -65,12 +65,10 @@ public class Main extends Activity {
                             getPackageManager().getPackageInfo(
                                     "com.facebook.katana", 0);
                             startActivity(new Intent(Intent.ACTION_VIEW, Uri
-                                    .parse("fb://page/208748925813135")).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
-                                    | Intent.FLAG_ACTIVITY_NEW_TASK));
+                                    .parse("fb://page/208748925813135")));
                         } catch (Exception e) {
                             startActivity(new Intent(Intent.ACTION_VIEW, Uri
-                                    .parse("https://www.facebook.com/ksa.kol.yom")).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
-                                    | Intent.FLAG_ACTIVITY_NEW_TASK));
+                                    .parse("https://www.facebook.com/ksa.kol.yom")));
                         }
                         break;
                     case 7:
@@ -82,14 +80,13 @@ public class Main extends Activity {
                             getPackageManager().getPackageInfo(
                                     "com.facebook.katana", 0);
                             startActivity(new Intent(Intent.ACTION_VIEW, Uri
-                                    .parse("fb://profile/1363784786")).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
-                                    | Intent.FLAG_ACTIVITY_NEW_TASK));
+                                    .parse("fb://profile/1363784786")));
                         } catch (Exception e) {
                             startActivity(new Intent(Intent.ACTION_VIEW, Uri
-                                    .parse("https://www.facebook.com/EngineeroBono")).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP
-                                    | Intent.FLAG_ACTIVITY_NEW_TASK));
+                                    .parse("https://www.facebook.com/EngineeroBono")));
                         }
                         break;
+
                     case 9:
                         Uri uri = Uri.parse("market://details?id=" + getPackageName());
                         Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);

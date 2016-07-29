@@ -89,14 +89,36 @@ public class Utility {
         }
     }
 
-    public static ArrayList<Story> getPagingStories(Context context) {
-        return parseStories(HTTPClient.getStories(), context, null);
+    public static String [] parsePost(String response) {
+        Log.i("response", response);
+        if (response == null)
+            return null;
+        String [] postDes = new String[3];
+        try {
+            JSONObject obj = new JSONObject(response);
+
+            postDes[0] = obj.getJSONObject("likes").getJSONObject("summary").getString("total_count");
+            postDes[1] = obj.getJSONObject("comments").getJSONObject("summary").getString("total_count");
+            postDes[2] = obj.getJSONObject("shares").getString("count");
+
+            return postDes;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
+    public static ArrayList<Story> getPagingStories(Context context) {
+        return parseStories(HTTPClient.get(), context, null);
+    }
+
+    public static String [] getPostDes(String id) {
+        return parsePost(HTTPClient.getPost(id));
+    }
     public static ArrayList<Story> getPagingStories(Context context, String pagingType) {
         String pagingURL = getPagingURL(context, pagingType);
         if (pagingURL.length() != 0)
-            return parseStories(HTTPClient.getStories(pagingURL), context, pagingType);
+            return parseStories(HTTPClient.get(pagingURL), context, pagingType);
         else
             return new ArrayList<>(0);
     }

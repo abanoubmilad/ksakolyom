@@ -8,7 +8,7 @@ import okhttp3.Response;
 public class HTTPClient {
     private static OkHttpClient client = new OkHttpClient();
 
-    public static String getStories() {
+    public static String get() {
 
         Request request = new Request.Builder()
                 .url("https://graph.facebook.com/v2.7/208748925813135/feed?" +
@@ -27,7 +27,27 @@ public class HTTPClient {
 
     }
 
-    public static String getStories(String pagingURL) {
+    public static String getPost(String id) {
+
+        Request request = new Request.Builder()
+                .url("https://graph.facebook.com/v2.7/" +
+                        id + "?fields=likes.limit(0).summary(true),comments.limit(0).summary(true),shares&" +
+                        BuildConfig.F_B_A_T
+
+                )
+                .build();
+        Response response;
+        try {
+            response = client.newCall(request).execute();
+            return response.body().string();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+
+    }
+
+    public static String get(String pagingURL) {
 
         Request request = new Request.Builder()
                 .url(pagingURL)
