@@ -61,7 +61,7 @@ public class SearchDates extends AppCompatActivity {
 
         final TextView date = (TextView) findViewById(R.id.date);
         ListView lv = (ListView) findViewById(R.id.list);
-        mAdapter = new StoryDisplayListAdapter(getApplicationContext(), new ArrayList<Story>(0));
+        mAdapter = new StoryDisplayListAdapter(getApplicationContext(), new ArrayList<StoryList>(0));
         lv.setAdapter(mAdapter);
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 

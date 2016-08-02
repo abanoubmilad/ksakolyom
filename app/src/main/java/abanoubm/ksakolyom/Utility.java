@@ -36,6 +36,7 @@ public class Utility {
             ArrayList<Story> stories = new ArrayList<>(length);
             JSONObject subObj;
             String picture;
+            String fullPicture;
             String msg;
             for (int i = 0; i < length; i++) {
                 subObj = array.getJSONObject(i);
@@ -45,11 +46,16 @@ public class Utility {
                     picture = "";
                 }
                 try {
+                    fullPicture = subObj.getString("full_picture");
+                } catch (JSONException e) {
+                    fullPicture = "";
+                }
+                try {
                     msg = subObj.getString("message");
                 } catch (JSONException e) {
                     msg = "";
                 }
-                stories.add(new Story(subObj.getString("id"), picture,
+                stories.add(new Story(subObj.getString("id"), picture,fullPicture,
                         msg,
                         subObj.getString("created_time").substring(0, 10)));
             }

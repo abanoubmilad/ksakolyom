@@ -12,7 +12,7 @@ public class HTTPClient {
 
         Request request = new Request.Builder()
                 .url("https://graph.facebook.com/v2.7/208748925813135/feed?" +
-                        "fields=picture,message,created_time&" +
+                        "fields=picture,full_picture,message,created_time&" +
                         BuildConfig.F_B_A_T
                 )
                 .build();

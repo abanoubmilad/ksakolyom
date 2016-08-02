@@ -5,6 +5,7 @@ import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -14,11 +15,11 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class StoryDisplayListAdapter extends Adapter<Story> {
+public class StoryDisplayListAdapter extends ArrayAdapter<StoryList> {
 
     private int selected = -1;
 
-    public StoryDisplayListAdapter(Context context, ArrayList<Story> stories) {
+    public StoryDisplayListAdapter(Context context, ArrayList<StoryList> stories) {
         super(context, 0, stories);
     }
 
@@ -26,7 +27,7 @@ public class StoryDisplayListAdapter extends Adapter<Story> {
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
 
-        Story story = getItem(position);
+        StoryList story = getItem(position);
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(
                     R.layout.item_display_story_list, parent, false);
@@ -39,8 +40,7 @@ public class StoryDisplayListAdapter extends Adapter<Story> {
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        int offset = Math.min(story.getContent().length(), 25);
-        holder.content.setText(story.getContent().substring(0, Math.max(offset, story.getContent().indexOf(' ', offset))));
+        holder.content.setText(story.getContent());
         holder.date.setText(story.getDate());
 
         try {
@@ -75,5 +75,48 @@ public class StoryDisplayListAdapter extends Adapter<Story> {
     public void setSelectedIndex(int pos) {
         selected = pos;
         notifyDataSetChanged();
+    }
+
+    public void clearThenAddAll(ArrayList<Story> list) {
+        setNotifyOnChange(false);
+        clear();
+        int offset;
+        for (Story story : list) {
+            offset = Math.min(story.getContent().length(), 25);
+            super.add(new StoryList(story.getId(),
+                    story.getPhoto(), story.getContent().substring(0,
+                    Math.max(offset, story.getContent().indexOf(' ', offset))), story.getDate()));
+        }
+        setNotifyOnChange(true);
+        notifyDataSetChanged();
+    }
+
+    public void addAll(ArrayList<Story> list) {
+        setNotifyOnChange(false);
+        int offset;
+        for (Story story : list) {
+            offset = Math.min(story.getContent().length(), 25);
+            super.add(new StoryList(story.getId(),
+                    story.getPhoto(), story.getContent().substring(0,
+                    Math.max(offset, story.getContent().indexOf(' ', offset))), story.getDate()));
+        }
+        setNotifyOnChange(true);
+        notifyDataSetChanged();
+    }
+
+    public void appendAllOnTop(ArrayList<Story> list) {
+        setNotifyOnChange(false);
+        int length = list.size();
+        Story story;
+        int offset;
+        for (int i = length - 1; i > -1; i--) {
+            story = list.get(i);
+            offset = Math.min(story.getContent().length(), 25);
+            super.insert(new StoryList(story.getId(), story.getPhoto(), story.getContent().substring(0,
+                    Math.max(offset, story.getContent().indexOf(' ', offset))), story.getDate()), 0);
+        }
+        setNotifyOnChange(true);
+        notifyDataSetChanged();
+
     }
 }

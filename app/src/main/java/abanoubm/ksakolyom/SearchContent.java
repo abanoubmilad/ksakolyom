@@ -59,7 +59,7 @@ public class SearchContent extends AppCompatActivity {
 
         final EditText input = (EditText) findViewById(R.id.input);
         ListView lv = (ListView) findViewById(R.id.list);
-        mAdapter = new StoryDisplayListAdapter(getApplicationContext(), new ArrayList<Story>(0));
+        mAdapter = new StoryDisplayListAdapter(getApplicationContext(), new ArrayList<StoryList>(0));
         lv.setAdapter(mAdapter);
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 

@@ -1,7 +1,9 @@
 package abanoubm.ksakolyom;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,7 +17,6 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
-import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
@@ -26,7 +27,7 @@ public class FragmentDisplayStory extends Fragment {
     private static final String ARG_ID = "id";
     private boolean isFav = false;
 
-    private TextView content, dateView,shares,likes,comments;
+    private TextView content, dateView, shares, likes, comments;
     private ImageView photo, fav, check;
 
     private DB mDB;
@@ -138,10 +139,20 @@ public class FragmentDisplayStory extends Fragment {
 
         @Override
         protected void onPostExecute(Void story) {
-            if (mStory.getPhoto().length() != 0)
-                Picasso.with(getContext()).load(mStory.getPhoto()).placeholder(R.mipmap.ic_def).into(photo);
-            else
-                photo.setImageResource(R.mipmap.ic_def);
+
+            if (((WifiManager) getActivity().getSystemService(Context.WIFI_SERVICE)).isWifiEnabled()) {
+                if (mStory.getFullPhoto().length() != 0)
+                    Picasso.with(getContext()).load(mStory.getFullPhoto()).placeholder(R.mipmap.ic_def).into(photo);
+                else if (mStory.getPhoto().length() != 0)
+                    Picasso.with(getContext()).load(mStory.getPhoto()).placeholder(R.mipmap.ic_def).into(photo);
+                else
+                    photo.setImageResource(R.mipmap.ic_def);
+            } else {
+                if (mStory.getPhoto().length() != 0)
+                    Picasso.with(getContext()).load(mStory.getPhoto()).placeholder(R.mipmap.ic_def).into(photo);
+                else
+                    photo.setImageResource(R.mipmap.ic_def);
+            }
 
             content.setText(mStory.getContent());
             try {

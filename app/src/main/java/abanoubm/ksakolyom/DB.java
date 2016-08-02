@@ -15,6 +15,7 @@ public class DB extends SQLiteOpenHelper {
     public static final String TB_STORY = "ksakolyom_tb",
             STORY_CONTENT = "story_con",
             STORY_PHOTO = "story_ph",
+            STORY_FULL_PHOTO = "story_ph_full",
             STORY_DATE = "story_date",
             STORY_READ = "story_read",
             STORY_ID = "story_id";
@@ -40,6 +41,7 @@ public class DB extends SQLiteOpenHelper {
                 STORY_CONTENT + "  text, " +
                 STORY_READ + "  character(1) default '0', " +
                 STORY_PHOTO + " text default '', " +
+                STORY_FULL_PHOTO + " text default '', " +
                 STORY_DATE + " character(10), " +
                 "primary key (" + STORY_ID + "," + STORY_DATE + "))";
         db.execSQL(sql);
@@ -68,6 +70,7 @@ public class DB extends SQLiteOpenHelper {
             values.put(STORY_CONTENT, story.getContent());
             values.put(STORY_DATE, story.getDate());
             values.put(STORY_PHOTO, story.getPhoto());
+            values.put(STORY_FULL_PHOTO, story.getFullPhoto());
             values.put(STORY_ID, story.getId());
             writableDB.insert(TB_STORY, null, values);
         }
@@ -83,7 +86,7 @@ public class DB extends SQLiteOpenHelper {
                                 STORY_READ + "!= '0'";
 
         Cursor c = readableDB.query(TB_STORY,
-                new String[]{STORY_ID, STORY_READ, STORY_PHOTO, STORY_CONTENT, STORY_DATE},
+                new String[]{STORY_ID, STORY_READ, STORY_PHOTO, STORY_FULL_PHOTO, STORY_CONTENT, STORY_DATE},
                 selection, null, null, null, STORY_DATE + " DESC", null);
 
         ArrayList<Story> result = new ArrayList<>(c.getCount());
@@ -92,7 +95,7 @@ public class DB extends SQLiteOpenHelper {
 
             do {
                 result.add(new Story(c.getString(0), c.getString(1),
-                        c.getString(2), c.getString(3), c.getString(4)));
+                        c.getString(2), c.getString(3), c.getString(4), c.getString(5)));
 
             } while (c.moveToNext());
         }
@@ -104,7 +107,7 @@ public class DB extends SQLiteOpenHelper {
 
     public ArrayList<Story> searchStories(String token) {
         Cursor c = readableDB.query(TB_STORY,
-                new String[]{STORY_ID, STORY_READ, STORY_PHOTO, STORY_CONTENT, STORY_DATE},
+                new String[]{STORY_ID, STORY_READ, STORY_PHOTO, STORY_FULL_PHOTO, STORY_CONTENT, STORY_DATE},
                 STORY_CONTENT + " like ?", new String[]{"%" + token + "%"}, null, null, STORY_DATE + " DESC", null);
         ArrayList<Story> result = new ArrayList<>(c.getCount());
 
@@ -112,7 +115,7 @@ public class DB extends SQLiteOpenHelper {
 
             do {
                 result.add(new Story(c.getString(0), c.getString(1),
-                        c.getString(2), c.getString(3), c.getString(4)));
+                        c.getString(2), c.getString(3), c.getString(4), c.getString(5)));
 
             } while (c.moveToNext());
         }
@@ -121,9 +124,10 @@ public class DB extends SQLiteOpenHelper {
         return result;
 
     }
+
     public ArrayList<Story> searchDates(String date) {
         Cursor c = readableDB.query(TB_STORY,
-                new String[]{STORY_ID, STORY_READ, STORY_PHOTO, STORY_CONTENT, STORY_DATE},
+                new String[]{STORY_ID, STORY_READ, STORY_PHOTO, STORY_FULL_PHOTO, STORY_CONTENT, STORY_DATE},
                 STORY_DATE + "=?", new String[]{date}, null, null, STORY_DATE + " DESC", null);
         ArrayList<Story> result = new ArrayList<>(c.getCount());
 
@@ -131,7 +135,7 @@ public class DB extends SQLiteOpenHelper {
 
             do {
                 result.add(new Story(c.getString(0), c.getString(1),
-                        c.getString(2), c.getString(3), c.getString(4)));
+                        c.getString(2), c.getString(3), c.getString(4), c.getString(5)));
 
             } while (c.moveToNext());
         }
@@ -143,13 +147,13 @@ public class DB extends SQLiteOpenHelper {
 
     public Story getStory(String id) {
         Cursor c = readableDB.query(TB_STORY,
-                new String[]{STORY_ID, STORY_READ, STORY_PHOTO, STORY_CONTENT, STORY_DATE},
+                new String[]{STORY_ID, STORY_READ, STORY_PHOTO, STORY_FULL_PHOTO, STORY_CONTENT, STORY_DATE},
                 STORY_ID + "=?", new String[]{id}, null, null, null, null);
         Story story = null;
 
         if (c.moveToFirst()) {
             story = new Story(c.getString(0), c.getString(1),
-                    c.getString(2), c.getString(3), c.getString(4));
+                    c.getString(2), c.getString(3), c.getString(4), c.getString(5));
         }
         c.close();
 

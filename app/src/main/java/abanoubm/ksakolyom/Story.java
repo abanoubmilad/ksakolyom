@@ -1,34 +1,21 @@
 package abanoubm.ksakolyom;
 
-public class Story {
-    private String id;
+public class Story extends StoryList {
     private String read;
-    private String photo;
-    private String content;
-    private String date;
+    private String fullPhoto;
 
-    public Story(String id, String read, String photo, String content, String date) {
-        this.id = id;
+    public Story(String id, String read, String photo, String fullPhoto, String content, String date) {
+        super(id, photo, content, date);
         this.read = read;
-        this.photo = photo;
-        this.content = content;
-        this.date = date;
+        this.fullPhoto = fullPhoto;
     }
-    public Story(String id, String photo, String content, String date) {
-        this.id = id;
+
+    public Story(String id, String photo, String fullPhoto, String content, String date) {
+        super(id, photo, content, date);
         this.read = "0";
-        this.photo = photo;
-        this.content = content;
-        this.date = date;
+        this.fullPhoto = fullPhoto;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getRead() {
         return read;
@@ -38,27 +25,11 @@ public class Story {
         this.read = read;
     }
 
-    public String getPhoto() {
-        return photo;
+    public String getFullPhoto() {
+        return fullPhoto;
     }
 
-    public void setPhoto(String photo) {
-        this.photo = photo;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
+    public void setFullPhoto(String fullPhoto) {
+        this.fullPhoto = fullPhoto;
     }
 }

@@ -80,7 +80,7 @@ public class FragmentDisplaySelection extends Fragment {
         lv = (ListView) root.findViewById(R.id.list);
         loading = (ProgressBar) root.findViewById(R.id.loading);
 
-        mAdapter = new StoryDisplayListAdapter(getActivity(), new ArrayList<Story>(0));
+        mAdapter = new StoryDisplayListAdapter(getActivity(), new ArrayList<StoryList>(0));
         lv.setAdapter(mAdapter);
 
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
