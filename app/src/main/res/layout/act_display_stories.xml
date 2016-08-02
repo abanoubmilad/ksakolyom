@@ -6,7 +6,7 @@
     <include layout="@layout/header" />
 
     <FrameLayout
-        android:id="@+id/display_contacts_fragment"
+        android:id="@+id/display_stories_fragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </LinearLayout>

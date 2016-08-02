@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -22,11 +23,16 @@ public class FragmentDisplaySelection extends Fragment {
     private static final String ARG_DUAL_MODE = "dual";
     private static final String ARG_SELECTION = "sel";
     private int selection;
+    private ProgressBar loading;
 
     private class GetAllTask extends AsyncTask<Void, Void, ArrayList<Story>> {
         @Override
         protected void onPreExecute() {
+
+            loading.setVisibility(View.VISIBLE);
+
         }
+
 
         @Override
         protected ArrayList<Story> doInBackground(Void... params) {
@@ -50,6 +56,7 @@ public class FragmentDisplaySelection extends Fragment {
                     }
                 }
             }
+            loading.setVisibility(View.GONE);
 
 
         }
@@ -71,6 +78,7 @@ public class FragmentDisplaySelection extends Fragment {
         View root = inflater.inflate(R.layout.fragment_display_stories, container, false);
 
         lv = (ListView) root.findViewById(R.id.list);
+        loading = (ProgressBar) root.findViewById(R.id.loading);
 
         mAdapter = new StoryDisplayListAdapter(getActivity(), new ArrayList<Story>(0));
         lv.setAdapter(mAdapter);

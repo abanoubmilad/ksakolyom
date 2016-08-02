@@ -4,7 +4,6 @@ package abanoubm.ksakolyom;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -22,7 +21,6 @@ public class Utility {
     public static final String TAG_LAST = "last";
 
     public static ArrayList<Story> parseStories(String response, Context context, String pagingType) {
-        Log.i("response", response);
         if (response == null)
             return null;
 
@@ -70,30 +68,24 @@ public class Utility {
                     updateLastPaging(context);
                 }
             } else {
-                if (pagingType == null) {
-                    updatePagingURL(context, TAG_PREVIOUS, "");
-                    updatePagingURL(context, TAG_NEXT, "");
+                if (pagingType == null)
                     updateLastPaging(context);
-                } else if (pagingType.equals(TAG_NEXT)) {
+                else if (pagingType.equals(TAG_NEXT))
                     updatePagingURL(context, TAG_NEXT, "");
-                } else {
-                    updatePagingURL(context, TAG_PREVIOUS, "");
+                else if (pagingType.equals(TAG_PREVIOUS))
                     updateLastPaging(context);
-                }
-
             }
             return stories;
         } catch (Exception e) {
-            e.printStackTrace();
+            //     e.printStackTrace();
             return null;
         }
     }
 
-    public static String [] parsePost(String response) {
-        Log.i("response", response);
+    public static String[] parsePost(String response) {
         if (response == null)
             return null;
-        String [] postDes = new String[3];
+        String[] postDes = new String[3];
         try {
             JSONObject obj = new JSONObject(response);
 
@@ -103,7 +95,7 @@ public class Utility {
 
             return postDes;
         } catch (Exception e) {
-            e.printStackTrace();
+            //    e.printStackTrace();
             return null;
         }
     }
@@ -112,9 +104,10 @@ public class Utility {
         return parseStories(HTTPClient.get(), context, null);
     }
 
-    public static String [] getPostDes(String id) {
+    public static String[] getPostDes(String id) {
         return parsePost(HTTPClient.getPost(id));
     }
+
     public static ArrayList<Story> getPagingStories(Context context, String pagingType) {
         String pagingURL = getPagingURL(context, pagingType);
         if (pagingURL.length() != 0)
@@ -142,10 +135,10 @@ public class Utility {
 
 
     public static boolean hasPaging(Context context, String pagingType) {
-        if (pagingType.equals(TAG_PREVIOUS))
-            return getPagingURL(context, TAG_PREVIOUS).length() != 0;
+        if (pagingType.equals(TAG_NEXT))
+            return getPagingURL(context, TAG_NEXT).length() != 0;
         else
-            return getPagingURL(context, TAG_NEXT).length() != 0 || new SimpleDateFormat("yyyy-MM-dd").format(
+            return getPagingURL(context, TAG_PREVIOUS).length() != 0 && new SimpleDateFormat("yyyy-MM-dd").format(
                     new Date()).compareTo(context.getSharedPreferences(TAG_PAGING,
                     Context.MODE_PRIVATE).getString(TAG_LAST, "")) == 1;
 
