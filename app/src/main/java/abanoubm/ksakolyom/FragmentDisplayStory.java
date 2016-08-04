@@ -139,8 +139,10 @@ public class FragmentDisplayStory extends Fragment {
 
         @Override
         protected void onPostExecute(Void story) {
+            if(getContext()==null)
+                return;
 
-            if (((WifiManager) getActivity().getSystemService(Context.WIFI_SERVICE)).isWifiEnabled()) {
+            if (((WifiManager) getContext().getSystemService(Context.WIFI_SERVICE)).isWifiEnabled()) {
                 if (mStory.getFullPhoto().length() != 0)
                     Picasso.with(getContext()).load(mStory.getFullPhoto()).placeholder(R.mipmap.ic_def).into(photo);
                 else if (mStory.getPhoto().length() != 0)
