@@ -5,7 +5,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,6 +51,8 @@ public class FragmentDisplayStories extends Fragment {
 
         @Override
         protected void onPostExecute(ArrayList<Story> stories) {
+            if(getContext()==null)
+                return;
             if (stories != null) {
                 mAdapter.clearThenAddAll(stories);
                 if (stories.size() == 0) {
@@ -101,6 +102,8 @@ public class FragmentDisplayStories extends Fragment {
 
         @Override
         protected void onPostExecute(ArrayList<Story> stories) {
+            if(getContext()==null)
+                return;
             loading_previous = false;
             if (stories != null)
                 mAdapter.appendAllOnTop(stories);
@@ -131,6 +134,8 @@ public class FragmentDisplayStories extends Fragment {
 
         @Override
         protected void onPostExecute(ArrayList<Story> stories) {
+            if(getContext()==null)
+                return;
             loading_next = false;
 
             if (stories != null) {
@@ -193,17 +198,27 @@ public class FragmentDisplayStories extends Fragment {
                 if (!paging_allowed)
                     return;
                 if (firstVisibleItem == 0 && !loading_previous && Utility.isNetworkAvailable(getContext()) && Utility.hasPaging(getContext(), Utility.TAG_PREVIOUS)) {
-                    Log.i("previoussssssssssssss", "previoussssssssssssss");
+                    //  Log.i("previoussssssssssssss", "previoussssssssssssss");
                     loading_previous = true;
                     new GetPreviousPagingTask().execute();
                 } else if (firstVisibleItem + visibleItemCount >= totalItemCount && !loading_next && Utility.hasPaging(getContext(), Utility.TAG_NEXT)) {
                     loading_next = true;
-                    Log.i("nextttttttttttttttttt", "nextttttttttttttttttt");
+                    //   Log.i("nextttttttttttttttttt", "nextttttttttttttttttt");
                     new GetNextPagingTask().execute();
                 }
             }
         });
-
+        View view = root.findViewById(R.id.reload);
+        view.setVisibility(View.VISIBLE);
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!loading_previous && Utility.isNetworkAvailable(getContext())) {
+                    loading_previous = true;
+                    new GetPreviousPagingTask().execute();
+                }
+            }
+        });
         root.findViewById(R.id.up).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -40,6 +40,8 @@ public class SearchContent extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(ArrayList<Story> result) {
+            if(getApplicationContext()==null)
+                return;
             mAdapter.clearThenAddAll(result);
             if (result.size() == 0)
                 Toast.makeText(getApplicationContext(),

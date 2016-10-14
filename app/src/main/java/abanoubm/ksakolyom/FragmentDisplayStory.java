@@ -27,7 +27,7 @@ public class FragmentDisplayStory extends Fragment {
     private static final String ARG_ID = "id";
     private boolean isFav = false;
 
-    private TextView content, dateView, shares, likes, comments;
+    private TextView content, dateView, shares, likes, comments,shareVia;
     private ImageView photo, fav, check;
 
     private DB mDB;
@@ -59,6 +59,8 @@ public class FragmentDisplayStory extends Fragment {
         fav = (ImageView) root.findViewById(R.id.fav);
         check = (ImageView) root.findViewById(R.id.check);
 
+
+        shareVia = (TextView) root.findViewById(R.id.share_via);
 
         return root;
 
@@ -115,6 +117,18 @@ public class FragmentDisplayStory extends Fragment {
                                 .parse("https://www.facebook.com/ksa.kol.yom/" + id)));
                     }
                 }
+            }
+        });
+        shareVia.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent shareIntent = new Intent(
+                        android.content.Intent.ACTION_SEND);
+                shareIntent.setType("text/plain");
+                shareIntent.putExtra(android.content.Intent.EXTRA_TEXT,
+                        content.getText().toString());
+            startActivity(
+                        Intent.createChooser(shareIntent, "share via"));
             }
         });
 
@@ -192,6 +206,8 @@ public class FragmentDisplayStory extends Fragment {
 
         @Override
         protected void onPostExecute(String[] arr) {
+            if(getContext()==null)
+                return;
             if (arr != null) {
                 likes.setText(arr[0]);
                 comments.setText(arr[1]);
@@ -221,6 +237,8 @@ public class FragmentDisplayStory extends Fragment {
 
         @Override
         protected void onPostExecute(Void story) {
+            if(getContext()==null)
+                return;
             if (isFav) {
                 fav.setImageResource(R.mipmap.ic_fav);
                 Toast.makeText(getActivity(),

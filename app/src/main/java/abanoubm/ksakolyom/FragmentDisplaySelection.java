@@ -41,6 +41,8 @@ public class FragmentDisplaySelection extends Fragment {
 
         @Override
         protected void onPostExecute(ArrayList<Story> stories) {
+           if(getContext()==null)
+               return;
             if (stories != null) {
                 mAdapter.addAll(stories);
                 if (stories.size() == 0) {

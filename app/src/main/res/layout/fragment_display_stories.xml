@@ -34,6 +34,15 @@
             android:background="@drawable/dynamic_bg"
             android:padding="5dp"
             android:src="@mipmap/ic_down" />
+        <ImageView
+            android:id="@+id/reload"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/dynamic_bg"
+            android:padding="5dp"
+            android:visibility="gone"
+            android:src="@mipmap/ic_reload" />
     </LinearLayout>
 
     <ProgressBar
