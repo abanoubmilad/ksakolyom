@@ -12,6 +12,29 @@
         android:layout_height="match_parent"
         android:visibility="gone" />
 
+
+
+    <ProgressBar
+        android:id="@+id/previous"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
+
+    <ListView
+        android:id="@+id/list"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:verticalScrollbarPosition="left" />
+
+
+    <ProgressBar
+        android:id="@+id/next"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -44,27 +67,5 @@
             android:visibility="gone"
             android:src="@mipmap/ic_reload" />
     </LinearLayout>
-
-    <ProgressBar
-        android:id="@+id/previous"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone" />
-
-    <ListView
-        android:id="@+id/list"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:verticalScrollbarPosition="left" />
-
-
-    <ProgressBar
-        android:id="@+id/next"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone" />
 
 </LinearLayout>

@@ -56,7 +56,7 @@ public class FragmentDisplayStories extends Fragment {
             if (stories != null) {
                 mAdapter.clearThenAddAll(stories);
                 if (stories.size() == 0) {
-                    getActivity().finish();
+               //     getActivity().finish();
                     Toast.makeText(getActivity(),
                             R.string.msg_no_internet, Toast.LENGTH_SHORT).show();
 
@@ -70,7 +70,7 @@ public class FragmentDisplayStories extends Fragment {
                     }
                 }
             } else {
-                getActivity().finish();
+               // getActivity().finish();
                 Toast.makeText(getActivity(),
                         R.string.msg_no_internet, Toast.LENGTH_SHORT).show();
             }

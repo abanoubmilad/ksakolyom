@@ -22,7 +22,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Main" />
         <activity android:name=".DisplayStories" />
         <activity android:name=".DisplayStory" />
         <activity android:name=".SearchContent" />

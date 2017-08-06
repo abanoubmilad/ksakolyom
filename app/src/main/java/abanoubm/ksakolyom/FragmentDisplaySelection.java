@@ -46,7 +46,7 @@ public class FragmentDisplaySelection extends Fragment {
             if (stories != null) {
                 mAdapter.addAll(stories);
                 if (stories.size() == 0) {
-                    getActivity().finish();
+                  //  getActivity().finish();
                     Toast.makeText(getActivity(),
                             R.string.msg_no_stories, Toast.LENGTH_SHORT).show();
                 } else {
