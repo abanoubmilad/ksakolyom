@@ -170,7 +170,8 @@ public class FragmentDisplayStory extends Fragment {
                     photo.setImageResource(R.mipmap.ic_def);
             }
 
-            content.setText(mStory.getContent());
+            content.setText(mStory.getContent().replace(">>الآن تطبيق قصة كل يوم على جوجل بلاى","")
+                    .replace("https://play.google.com/store/apps/details?id=abanoubm.ksakolyom",""));
             try {
 
                 dateView.setText(new SimpleDateFormat("EEEE d - M - yyyy", new Locale("ar")).format(new SimpleDateFormat("yyyy-MM-dd").parse(mStory.getDate())));
@@ -178,7 +179,7 @@ public class FragmentDisplayStory extends Fragment {
                 dateView.setText(mStory.getDate());
             }
 
-            content.setText(mStory.getContent());
+        //    content.setText(mStory.getContent());
 
 
             if (mStory.getRead().equals("2")) {
