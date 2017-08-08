@@ -97,20 +97,21 @@ public class FragmentDisplaySelection extends Fragment {
                 ((CallBack) getActivity()).notify((mAdapter.getItem(position).getId()));
             }
         });
-        root.findViewById(R.id.up).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mAdapter.getCount() > 0)
-                    lv.setSelection(0);
-            }
-        });
-        root.findViewById(R.id.down).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mAdapter.getCount() > 0)
-                    lv.setSelection(mAdapter.getCount() - 1);
-            }
-        });
+//        root.findViewById(R.id.up).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (mAdapter.getCount() > 0)
+//                    lv.setSelection(0);
+//            }
+//        });
+//        root.findViewById(R.id.down).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (mAdapter.getCount() > 0)
+//                    lv.setSelection(mAdapter.getCount() - 1);
+//            }
+//        });
+     root.findViewById(R.id.reload).setEnabled(false);
         return root;
     }
 

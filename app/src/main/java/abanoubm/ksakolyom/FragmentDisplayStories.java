@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,13 +24,13 @@ public class FragmentDisplayStories extends Fragment {
     private StoryDisplayListAdapter mAdapter;
     private DB mDB;
     private static final String ARG_DUAL_MODE = "dual";
-    private ProgressBar previous, next, loading;
+    private ProgressBar next, loading;
+    private SwipeRefreshLayout previous;
     private boolean loading_previous = false, loading_next = false, paging_allowed = false;
 
     private class GetAllTask extends AsyncTask<Void, Void, ArrayList<Story>> {
         @Override
         protected void onPreExecute() {
-            paging_allowed = false;
             loading.setVisibility(View.VISIBLE);
 
         }
@@ -51,12 +52,12 @@ public class FragmentDisplayStories extends Fragment {
 
         @Override
         protected void onPostExecute(ArrayList<Story> stories) {
-            if(getContext()==null)
+            if (getContext() == null)
                 return;
             if (stories != null) {
                 mAdapter.clearThenAddAll(stories);
                 if (stories.size() == 0) {
-               //     getActivity().finish();
+                    //     getActivity().finish();
                     Toast.makeText(getActivity(),
                             R.string.msg_no_internet, Toast.LENGTH_SHORT).show();
 
@@ -70,7 +71,7 @@ public class FragmentDisplayStories extends Fragment {
                     }
                 }
             } else {
-               // getActivity().finish();
+                // getActivity().finish();
                 Toast.makeText(getActivity(),
                         R.string.msg_no_internet, Toast.LENGTH_SHORT).show();
             }
@@ -84,7 +85,7 @@ public class FragmentDisplayStories extends Fragment {
 
         @Override
         protected void onPreExecute() {
-            previous.setVisibility(View.VISIBLE);
+            previous.setRefreshing(true);
         }
 
         @Override
@@ -102,13 +103,13 @@ public class FragmentDisplayStories extends Fragment {
 
         @Override
         protected void onPostExecute(ArrayList<Story> stories) {
-            if(getContext()==null)
+            if (getContext() == null)
                 return;
             loading_previous = false;
             if (stories != null)
                 mAdapter.appendAllOnTop(stories);
 
-            previous.setVisibility(View.GONE);
+            previous.setRefreshing(false);
 
         }
     }
@@ -134,7 +135,7 @@ public class FragmentDisplayStories extends Fragment {
 
         @Override
         protected void onPostExecute(ArrayList<Story> stories) {
-            if(getContext()==null)
+            if (getContext() == null)
                 return;
             loading_next = false;
 
@@ -166,7 +167,6 @@ public class FragmentDisplayStories extends Fragment {
         lv = (ListView) root.findViewById(R.id.list);
 
 
-        previous = (ProgressBar) root.findViewById(R.id.previous);
         next = (ProgressBar) root.findViewById(R.id.next);
         loading = (ProgressBar) root.findViewById(R.id.loading);
 
@@ -208,37 +208,50 @@ public class FragmentDisplayStories extends Fragment {
                 }
             }
         });
-        View view = root.findViewById(R.id.reload);
-        view.setVisibility(View.VISIBLE);
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!loading_previous && Utility.isNetworkAvailable(getContext())) {
-                    loading_previous = true;
-                    new GetPreviousPagingTask().execute();
+        previous =(SwipeRefreshLayout) root.findViewById(R.id.reload);
+        previous.setOnRefreshListener(
+                new SwipeRefreshLayout.OnRefreshListener() {
+                    @Override
+                    public void onRefresh() {
+                        if (!loading_previous && Utility.isNetworkAvailable(getContext())) {
+                            loading_previous = true;
+                            new GetPreviousPagingTask().execute();
+                        }else{
+                            previous.setRefreshing(false);
+                        }
+                    }
                 }
-            }
-        });
-        root.findViewById(R.id.up).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mAdapter.getCount() > 0)
-                    lv.setSelection(0);
-            }
-        });
-        root.findViewById(R.id.down).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mAdapter.getCount() > 0)
-                    lv.setSelection(mAdapter.getCount() - 1);
-            }
-        });
+        );
+
+//        View view = root.findViewById(R.id.reload);
+//        view.setVisibility(View.VISIBLE);
+//        view.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//            }
+//        });
+//        root.findViewById(R.id.up).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (mAdapter.getCount() > 0)
+//                    lv.setSelection(0);
+//            }
+//        });
+//        root.findViewById(R.id.down).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (mAdapter.getCount() > 0)
+//                    lv.setSelection(mAdapter.getCount() - 1);
+//            }
+//        });
         return root;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        paging_allowed = false;
         new GetAllTask().execute();
 
     }
