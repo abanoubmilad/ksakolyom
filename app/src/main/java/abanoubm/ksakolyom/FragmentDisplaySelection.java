@@ -94,7 +94,7 @@ public class FragmentDisplaySelection extends Fragment {
 
                 previousPosition = lv.getFirstVisiblePosition();
 
-                ((CallBack) getActivity()).notify((mAdapter.getItem(position).getId()));
+                ((CallBack) getActivity()).notifyFired((mAdapter.getItem(position).getId()));
             }
         });
 //        root.findViewById(R.id.up).setOnClickListener(new View.OnClickListener() {

@@ -4,6 +4,7 @@ package abanoubm.ksakolyom;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.util.Log;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -116,6 +117,8 @@ public class Utility {
 
     public static ArrayList<Story> getPagingStories(Context context, String pagingType) {
         String pagingURL = getPagingURL(context, pagingType);
+        Log.i("check-pagingURL",pagingURL);
+
         if (pagingURL.length() != 0)
             return parseStories(HTTPClient.get(pagingURL), context, pagingType);
         else

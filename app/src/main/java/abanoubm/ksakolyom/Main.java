@@ -17,14 +17,14 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.Locale;
 
-public class DisplayStories extends AppCompatActivity implements CallBack {
+public class Main extends AppCompatActivity implements CallBack {
 
     private boolean dualMode;
     private static final String ARG_ID = "id";
     private static final String ARG_DUAL_MODE = "dual";
     private static final String ARG_SELECTION = "sel";
     private MenuItemAdapter mMenuItemAdapter;
-
+    private  DrawerLayout nav;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,7 +32,7 @@ public class DisplayStories extends AppCompatActivity implements CallBack {
         dualMode = findViewById(R.id.display_stories_fragment_dual) != null;
 
         ListView lv = (ListView)findViewById(R.id.list);
-        final DrawerLayout nav = (DrawerLayout)findViewById(R.id.drawer_layout);
+   nav = (DrawerLayout)findViewById(R.id.drawer_layout);
         mMenuItemAdapter = new MenuItemAdapter(getApplicationContext(),
                 new ArrayList<>(Arrays.asList(getResources()
                         .getStringArray(R.array.main_menu))));
@@ -46,26 +46,46 @@ public class DisplayStories extends AppCompatActivity implements CallBack {
                 nav.closeDrawers();
                 switch (position) {
                     case 0:
+                      notifyFired(null);
                         updateContent(Utility.STORIES_ALL);
 
                         break;
                     case 1:
+                        notifyFired(null);
+
                         updateContent(Utility.STORIES_FAV);
 
                         break;
                     case 2:
+                        notifyFired(null);
+
                         updateContent(Utility.STORIES_UN_READ);
 
                         break;
                     case 3:
+                        notifyFired(null);
+
                         updateContent(Utility.STORIES_READ);
 
                         break;
                     case 4:
-                        startActivity(new Intent(DisplayStories.this, SearchContent.class));
-                        break;
+                        notifyFired(null);
+
+                        ((TextView) findViewById(R.id.subhead)).setText(getResources().getString(R.string.sub_search_content));
+
+                            getSupportFragmentManager().beginTransaction()
+                                    .replace(R.id.display_stories_fragment, new FragmentSearchContent())
+                                    .commit();
+
+                       break;
                     case 5:
-                        startActivity(new Intent(DisplayStories.this, SearchDates.class));
+                        notifyFired(null);
+
+                        ((TextView) findViewById(R.id.subhead)).setText(getResources().getString(R.string.sub_search_dates));
+
+                        getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.display_stories_fragment, new FragmentSearchDates())
+                                .commit();
                         break;
                     case 6:
                         try {
@@ -169,22 +189,36 @@ public class DisplayStories extends AppCompatActivity implements CallBack {
     }
 
     @Override
-    public void notify(String id) {
-        if (dualMode) {
-            Bundle args = new Bundle();
-            args.putString(ARG_ID, id);
-            args.putBoolean(ARG_DUAL_MODE, true);
+    public void notifyFired(String id) {
+        if(id==null ){
+            if(dualMode) {
+                getSupportFragmentManager().popBackStack();
+            }
+        }else {
+            if (dualMode) {
 
-            FragmentDisplayStory fragment = new FragmentDisplayStory();
-            fragment.setArguments(args);
+                Bundle args = new Bundle();
+                args.putString(ARG_ID, id);
+                args.putBoolean(ARG_DUAL_MODE, true);
 
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.display_story_fragment, fragment)
-                    .commit();
+                FragmentDisplayStory fragment = new FragmentDisplayStory();
+                fragment.setArguments(args);
 
-        } else {
-            startActivity(new Intent(this, DisplayStory.class).putExtra(ARG_ID, id));
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.display_story_fragment, fragment)
+                        .commit();
+
+            } else {
+                startActivity(new Intent(this, DisplayStory.class).putExtra(ARG_ID, id));
+            }
         }
-
+    }
+    @Override
+    public void onBackPressed() {
+        if (nav.isDrawerOpen(Gravity.RIGHT)) {
+            nav.closeDrawer(Gravity.RIGHT);
+        } else {
+            super.onBackPressed();
+        }
     }
 }

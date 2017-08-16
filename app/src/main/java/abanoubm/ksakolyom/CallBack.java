@@ -1,5 +1,5 @@
 package abanoubm.ksakolyom;
 
 public interface CallBack {
-    void notify(String id);
+    void notifyFired(String id);
 }

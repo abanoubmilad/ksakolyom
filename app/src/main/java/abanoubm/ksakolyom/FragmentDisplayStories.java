@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -182,7 +183,7 @@ public class FragmentDisplayStories extends Fragment {
 
                 previousPosition = lv.getFirstVisiblePosition();
 
-                ((CallBack) getActivity()).notify((mAdapter.getItem(position).getId()));
+                ((CallBack) getActivity()).notifyFired((mAdapter.getItem(position).getId()));
             }
         });
 
@@ -198,12 +199,10 @@ public class FragmentDisplayStories extends Fragment {
                 if (!paging_allowed)
                     return;
                 if (firstVisibleItem == 0 && !loading_previous && Utility.isNetworkAvailable(getContext()) && Utility.hasPaging(getContext(), Utility.TAG_PREVIOUS)) {
-                    //  Log.i("previoussssssssssssss", "previoussssssssssssss");
                     loading_previous = true;
                     new GetPreviousPagingTask().execute();
                 } else if (firstVisibleItem + visibleItemCount >= totalItemCount && !loading_next && Utility.hasPaging(getContext(), Utility.TAG_NEXT)) {
                     loading_next = true;
-                    //   Log.i("nextttttttttttttttttt", "nextttttttttttttttttt");
                     new GetNextPagingTask().execute();
                 }
             }
@@ -213,9 +212,12 @@ public class FragmentDisplayStories extends Fragment {
                 new SwipeRefreshLayout.OnRefreshListener() {
                     @Override
                     public void onRefresh() {
+                        Log.i("check","i'm in previous");
                         if (!loading_previous && Utility.isNetworkAvailable(getContext())) {
                             loading_previous = true;
                             new GetPreviousPagingTask().execute();
+                            Log.i("check","loading true");
+
                         }else{
                             previous.setRefreshing(false);
                         }
@@ -223,28 +225,6 @@ public class FragmentDisplayStories extends Fragment {
                 }
         );
 
-//        View view = root.findViewById(R.id.reload);
-//        view.setVisibility(View.VISIBLE);
-//        view.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//            }
-//        });
-//        root.findViewById(R.id.up).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (mAdapter.getCount() > 0)
-//                    lv.setSelection(0);
-//            }
-//        });
-//        root.findViewById(R.id.down).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (mAdapter.getCount() > 0)
-//                    lv.setSelection(mAdapter.getCount() - 1);
-//            }
-//        });
         return root;
     }
 

@@ -5,8 +5,10 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.DatePicker;
 import android.widget.ListView;
@@ -16,7 +18,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-public class SearchDates extends AppCompatActivity {
+public class FragmentSearchDates extends Fragment {
     private StoryDisplayListAdapter mAdapter;
     private DB mDB;
     private static final String ARG_ID = "id";
@@ -28,7 +30,7 @@ public class SearchDates extends AppCompatActivity {
 
         @Override
         protected void onPreExecute() {
-            pBar = new ProgressDialog(SearchDates.this);
+            pBar = new ProgressDialog(getActivity());
             pBar.setCancelable(false);
             pBar.show();
         }
@@ -36,34 +38,32 @@ public class SearchDates extends AppCompatActivity {
         @Override
         protected ArrayList<Story> doInBackground(Void... params) {
             if (mDB == null)
-                mDB = DB.getInstant(getApplicationContext());
+                mDB = DB.getInstant(getActivity());
             return mDB.searchDates(targetDay);
         }
 
         @Override
         protected void onPostExecute(ArrayList<Story> result) {
-            if(getApplicationContext()==null)
+            if(getContext()==null)
                 return;
             mAdapter.clearThenAddAll(result);
             if (result.size() == 0)
-                Toast.makeText(getApplicationContext(),
+                Toast.makeText(getActivity(),
                         R.string.msg_no_results, Toast.LENGTH_SHORT).show();
             pBar.dismiss();
 
         }
 
     }
-
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.act_search_dates);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View root = inflater.inflate(R.layout.frag_search_dates, container, false);
 
-        ((TextView) findViewById(R.id.subhead)).setText(getResources().getString(R.string.sub_search_dates));
 
-        final TextView date = (TextView) findViewById(R.id.date);
-        ListView lv = (ListView) findViewById(R.id.list);
-        mAdapter = new StoryDisplayListAdapter(getApplicationContext(), new ArrayList<StoryList>(0));
+        final TextView date = (TextView) root.findViewById(R.id.date);
+        ListView lv = (ListView) root.findViewById(R.id.list);
+        mAdapter = new StoryDisplayListAdapter(getActivity(), new ArrayList<StoryList>(0));
         lv.setAdapter(mAdapter);
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -71,14 +71,14 @@ public class SearchDates extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View arg1,
                                     int position, long arg3) {
 
-                startActivity(new Intent(getApplicationContext(),
-                        DisplayStory.class).putExtra(ARG_ID, mAdapter.getItem(position).getId()));
+                ((CallBack) getActivity()).notifyFired((mAdapter.getItem(position).getId()));
+
 
             }
         });
 
         Calendar cal = Calendar.getInstance();
-        final DatePickerDialog picker_date = new DatePickerDialog(this,
+        final DatePickerDialog picker_date = new DatePickerDialog(getActivity(),
                 new DatePickerDialog.OnDateSetListener() {
                     public void onDateSet(DatePicker view, int year,
                                           int monthOfYear, int dayOfMonth) {
@@ -91,7 +91,7 @@ public class SearchDates extends AppCompatActivity {
                 }, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH),
                 cal.get(Calendar.DAY_OF_MONTH));
 
-        findViewById(R.id.pick_date)
+        root.findViewById(R.id.pick_date)
                 .setOnClickListener(new View.OnClickListener() {
 
                     @Override
@@ -100,6 +100,7 @@ public class SearchDates extends AppCompatActivity {
 
                     }
                 });
+        return root;
     }
 
 }

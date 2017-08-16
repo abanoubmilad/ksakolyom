@@ -4,8 +4,10 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -14,7 +16,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-public class SearchContent extends AppCompatActivity {
+public class FragmentSearchContent extends Fragment {
     private StoryDisplayListAdapter mAdapter;
     private DB mDB;
     private static final String ARG_ID = "id";
@@ -26,7 +28,7 @@ public class SearchContent extends AppCompatActivity {
 
         @Override
         protected void onPreExecute() {
-            pBar = new ProgressDialog(SearchContent.this);
+            pBar = new ProgressDialog(getActivity());
             pBar.setCancelable(false);
             pBar.show();
         }
@@ -34,17 +36,17 @@ public class SearchContent extends AppCompatActivity {
         @Override
         protected ArrayList<Story> doInBackground(String... params) {
             if (mDB == null)
-                mDB = DB.getInstant(getApplicationContext());
+                mDB = DB.getInstant(getActivity());
             return mDB.searchStories(params[0]);
         }
 
         @Override
         protected void onPostExecute(ArrayList<Story> result) {
-            if(getApplicationContext()==null)
+            if (getContext() == null)
                 return;
             mAdapter.clearThenAddAll(result);
             if (result.size() == 0)
-                Toast.makeText(getApplicationContext(),
+                Toast.makeText(getActivity(),
                         R.string.msg_no_results, Toast.LENGTH_SHORT).show();
             pBar.dismiss();
 
@@ -53,15 +55,13 @@ public class SearchContent extends AppCompatActivity {
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.act_search_content);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View root = inflater.inflate(R.layout.frag_search_content, container, false);
 
-        ((TextView) findViewById(R.id.subhead)).setText(getResources().getString(R.string.sub_search_content));
-
-        final EditText input = (EditText) findViewById(R.id.input);
-        ListView lv = (ListView) findViewById(R.id.list);
-        mAdapter = new StoryDisplayListAdapter(getApplicationContext(), new ArrayList<StoryList>(0));
+        final EditText input = (EditText) root.findViewById(R.id.input);
+        ListView lv = (ListView) root.findViewById(R.id.list);
+        mAdapter = new StoryDisplayListAdapter(getActivity(), new ArrayList<StoryList>(0));
         lv.setAdapter(mAdapter);
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -69,12 +69,12 @@ public class SearchContent extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View arg1,
                                     int position, long arg3) {
 
-                startActivity(new Intent(getApplicationContext(),
-                        DisplayStory.class).putExtra(ARG_ID, mAdapter.getItem(position).getId()));
+                ((CallBack) getActivity()).notifyFired((mAdapter.getItem(position).getId()));
+
 
             }
         });
-        findViewById(R.id.btn).setOnClickListener(new View.OnClickListener() {
+        root.findViewById(R.id.btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String temp = input.getText().toString().trim();
@@ -83,6 +83,7 @@ public class SearchContent extends AppCompatActivity {
 
             }
         });
+        return root;
     }
 
 }

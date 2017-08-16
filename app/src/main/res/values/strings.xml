@@ -12,10 +12,10 @@
 
     <string name="sub_stories">قصص</string>
     <string name="sub_fav">قصص مُفضلة</string>
-    <string name="sub_unread">قصص لم تُقرأ</string>
-    <string name="sub_read">قصص تم قرائتها</string>
-    <string name="sub_search_content">بحث فى محتوى القصص</string>
-    <string name="sub_search_dates">بحث بيوم القصة</string>
+    <string name="sub_unread">قصص لم تقرأها</string>
+    <string name="sub_read">قصص قرأتها</string>
+    <string name="sub_search_content">بحث فى المحتوى</string>
+    <string name="sub_search_dates">بحث باليوم</string>
 
     <string name="likes">اعجاب</string>
     <string name="share">share</string>
