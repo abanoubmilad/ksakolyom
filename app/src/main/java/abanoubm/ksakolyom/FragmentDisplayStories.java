@@ -25,15 +25,14 @@ public class FragmentDisplayStories extends Fragment {
     private StoryDisplayListAdapter mAdapter;
     private DB mDB;
     private static final String ARG_DUAL_MODE = "dual";
-    private ProgressBar next, loading;
+    private ProgressBar next;
     private SwipeRefreshLayout previous;
     private boolean loading_previous = false, loading_next = false, paging_allowed = false;
 
     private class GetAllTask extends AsyncTask<Void, Void, ArrayList<Story>> {
         @Override
         protected void onPreExecute() {
-            loading.setVisibility(View.VISIBLE);
-
+            previous.setRefreshing(true);
         }
 
         @Override
@@ -76,8 +75,7 @@ public class FragmentDisplayStories extends Fragment {
                 Toast.makeText(getActivity(),
                         R.string.msg_no_internet, Toast.LENGTH_SHORT).show();
             }
-            loading.setVisibility(View.GONE);
-
+            previous.setRefreshing(false);
 
         }
     }
@@ -169,7 +167,6 @@ public class FragmentDisplayStories extends Fragment {
 
 
         next = (ProgressBar) root.findViewById(R.id.next);
-        loading = (ProgressBar) root.findViewById(R.id.loading);
 
         mAdapter = new StoryDisplayListAdapter(getActivity(), new ArrayList<StoryList>(0));
         lv.setAdapter(mAdapter);
@@ -201,7 +198,8 @@ public class FragmentDisplayStories extends Fragment {
                 if (firstVisibleItem == 0 && !loading_previous && Utility.isNetworkAvailable(getContext()) && Utility.hasPaging(getContext(), Utility.TAG_PREVIOUS)) {
                     loading_previous = true;
                     new GetPreviousPagingTask().execute();
-                } else if (firstVisibleItem + visibleItemCount >= totalItemCount && !loading_next && Utility.hasPaging(getContext(), Utility.TAG_NEXT)) {
+                } else
+                    if (firstVisibleItem + visibleItemCount >= totalItemCount && !loading_next && Utility.hasPaging(getContext(), Utility.TAG_NEXT)) {
                     loading_next = true;
                     new GetNextPagingTask().execute();
                 }
@@ -212,11 +210,11 @@ public class FragmentDisplayStories extends Fragment {
                 new SwipeRefreshLayout.OnRefreshListener() {
                     @Override
                     public void onRefresh() {
-                        Log.i("check","i'm in previous");
-                        if (!loading_previous && Utility.isNetworkAvailable(getContext())) {
+                  //      Log.i("check","i'm in previous");
+                        if (!loading_previous && Utility.isNetworkAvailable(getContext()) && !loading_next) {
                             loading_previous = true;
                             new GetPreviousPagingTask().execute();
-                            Log.i("check","loading true");
+                       //     Log.i("check","loading true");
 
                         }else{
                             previous.setRefreshing(false);

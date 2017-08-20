@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,13 +24,13 @@ public class FragmentDisplaySelection extends Fragment {
     private static final String ARG_DUAL_MODE = "dual";
     private static final String ARG_SELECTION = "sel";
     private int selection;
-    private ProgressBar loading;
+    private SwipeRefreshLayout loading;
 
     private class GetAllTask extends AsyncTask<Void, Void, ArrayList<Story>> {
         @Override
         protected void onPreExecute() {
 
-            loading.setVisibility(View.VISIBLE);
+            loading.setRefreshing(true);
 
         }
 
@@ -58,7 +59,7 @@ public class FragmentDisplaySelection extends Fragment {
                     }
                 }
             }
-            loading.setVisibility(View.GONE);
+            loading.setRefreshing(false);
 
 
         }
@@ -80,7 +81,7 @@ public class FragmentDisplaySelection extends Fragment {
         View root = inflater.inflate(R.layout.fragment_display_stories, container, false);
 
         lv = (ListView) root.findViewById(R.id.list);
-        loading = (ProgressBar) root.findViewById(R.id.loading);
+        loading = (SwipeRefreshLayout) root.findViewById(R.id.reload);
 
         mAdapter = new StoryDisplayListAdapter(getActivity(), new ArrayList<StoryList>(0));
         lv.setAdapter(mAdapter);
@@ -111,7 +112,7 @@ public class FragmentDisplaySelection extends Fragment {
 //                    lv.setSelection(mAdapter.getCount() - 1);
 //            }
 //        });
-     root.findViewById(R.id.reload).setEnabled(false);
+        loading.setEnabled(false);
         return root;
     }
 
