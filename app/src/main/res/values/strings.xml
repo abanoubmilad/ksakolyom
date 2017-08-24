@@ -3,7 +3,7 @@
 
     <string name="app_name">قصة كل يوم</string>
     <string name="btn.search">بحث</string>
-    <string name="copyright">ksa kol yom 1.2 ©%1$s\nabanoubcs@gmail.com</string>
+    <string name="copyright">ksa kol yom 1.6 ©%1$s\nabanoubcs@gmail.com</string>
     <string name="msg_no_stories">لا توجد قصص </string>
     <string name="msg_no_internet">تأكد من اتصالك بالانترنت</string>
     <string name="msg_no_results">لا توجد نتائج بحث</string>
