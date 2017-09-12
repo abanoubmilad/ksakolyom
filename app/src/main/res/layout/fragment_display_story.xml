@@ -17,15 +17,12 @@
             android:id="@+id/photo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
             android:src="@mipmap/ic_def" />
 
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -34,7 +31,7 @@
                 android:id="@+id/share_up"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
-                android:layout_margin="40dp"
+                android:layout_margin="20dp"
                 android:src="@mipmap/share" />
 
             <LinearLayout

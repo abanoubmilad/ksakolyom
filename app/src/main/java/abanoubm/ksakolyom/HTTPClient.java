@@ -26,6 +26,22 @@ public class HTTPClient {
         }
 
     }
+    public static String getTodaySearch() {
+        Request request = new Request.Builder()
+                .url("https://graph.facebook.com/v2.7/208748925813135/feed?" +
+                        "fields=picture,full_picture,message,created_time&limit=1&" +
+                        BuildConfig.F_B_A_T
+                )
+                .build();
+        Response response;
+        try {
+            response = client.newCall(request).execute();
+            return response.body().string();
+        } catch (Exception e) {
+            return null;
+        }
+
+    }
 
     public static String getPost(String id) {
 
