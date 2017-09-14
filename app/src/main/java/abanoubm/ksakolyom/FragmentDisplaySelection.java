@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -42,12 +41,12 @@ public class FragmentDisplaySelection extends Fragment {
 
         @Override
         protected void onPostExecute(ArrayList<Story> stories) {
-           if(getContext()==null)
-               return;
+            if (getContext() == null)
+                return;
             if (stories != null) {
                 mAdapter.addAll(stories);
                 if (stories.size() == 0) {
-                  //  getActivity().finish();
+                    //  getActivity().finish();
                     Toast.makeText(getActivity(),
                             R.string.msg_no_stories, Toast.LENGTH_SHORT).show();
                 } else {

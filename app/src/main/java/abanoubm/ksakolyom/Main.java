@@ -4,10 +4,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
@@ -27,15 +25,16 @@ public class Main extends AppCompatActivity implements CallBack {
     private static final String ARG_DUAL_MODE = "dual";
     private static final String ARG_SELECTION = "sel";
     private MenuItemAdapter mMenuItemAdapter;
-    private  DrawerLayout nav;
+    private DrawerLayout nav;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.act_display_stories);
         dualMode = findViewById(R.id.display_stories_fragment_dual) != null;
 
-        ListView lv = (ListView)findViewById(R.id.list);
-   nav = (DrawerLayout)findViewById(R.id.drawer_layout);
+        ListView lv = (ListView) findViewById(R.id.list);
+        nav = (DrawerLayout) findViewById(R.id.drawer_layout);
         mMenuItemAdapter = new MenuItemAdapter(getApplicationContext(),
                 new ArrayList<>(Arrays.asList(getResources()
                         .getStringArray(R.array.main_menu))));
@@ -49,7 +48,7 @@ public class Main extends AppCompatActivity implements CallBack {
                 nav.closeDrawers();
                 switch (position) {
                     case 0:
-                      notifyFired(null);
+                        notifyFired(null);
                         updateContent(Utility.STORIES_ALL);
 
                         break;
@@ -76,11 +75,11 @@ public class Main extends AppCompatActivity implements CallBack {
 
                         ((TextView) findViewById(R.id.subhead)).setText(getResources().getString(R.string.sub_search_content));
 
-                            getSupportFragmentManager().beginTransaction()
-                                    .replace(R.id.display_stories_fragment, new FragmentSearchContent())
-                                    .commit();
+                        getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.display_stories_fragment, new FragmentSearchContent())
+                                .commit();
 
-                       break;
+                        break;
                     case 5:
                         notifyFired(null);
 
@@ -151,13 +150,15 @@ public class Main extends AppCompatActivity implements CallBack {
         updateContent(Utility.STORIES_ALL);
 
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
         mMenuItemAdapter.recycleIcons();
 
     }
-    private void updateContent(int selection){
+
+    private void updateContent(int selection) {
 
 
         if (selection == Utility.STORIES_ALL)
@@ -193,14 +194,14 @@ public class Main extends AppCompatActivity implements CallBack {
 
     @Override
     public void notifyFired(String id) {
-        if(id==null ){
-            if(dualMode) {
-                for(Fragment fragment:getSupportFragmentManager().getFragments()){
-                        if(fragment!=null)
-                            getSupportFragmentManager().beginTransaction().remove(fragment).commit();
-                    }
+        if (id == null) {
+            if (dualMode) {
+                for (Fragment fragment : getSupportFragmentManager().getFragments()) {
+                    if (fragment != null)
+                        getSupportFragmentManager().beginTransaction().remove(fragment).commit();
                 }
-        }else {
+            }
+        } else {
             if (dualMode) {
 
                 Bundle args = new Bundle();
@@ -219,6 +220,7 @@ public class Main extends AppCompatActivity implements CallBack {
             }
         }
     }
+
     @Override
     public void onBackPressed() {
         if (nav.isDrawerOpen(Gravity.RIGHT)) {

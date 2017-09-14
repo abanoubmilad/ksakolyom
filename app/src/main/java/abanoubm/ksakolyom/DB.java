@@ -86,7 +86,7 @@ public class DB extends SQLiteOpenHelper {
                                 STORY_READ + "!= '0'";
 
         Cursor c = readableDB.query(TB_STORY,
-                new String[]{STORY_ID, STORY_READ, STORY_PHOTO, STORY_FULL_PHOTO, STORY_CONTENT, STORY_DATE},
+                new String[]{STORY_ID, STORY_PHOTO, STORY_FULL_PHOTO, STORY_CONTENT, STORY_DATE,STORY_READ},
                 selection, null, null, null, STORY_DATE + " DESC", null);
 
         ArrayList<Story> result = new ArrayList<>(c.getCount());
@@ -107,7 +107,7 @@ public class DB extends SQLiteOpenHelper {
 
     public ArrayList<Story> searchStories(String token) {
         Cursor c = readableDB.query(TB_STORY,
-                new String[]{STORY_ID, STORY_READ, STORY_PHOTO, STORY_FULL_PHOTO, STORY_CONTENT, STORY_DATE},
+                new String[]{STORY_ID, STORY_PHOTO, STORY_FULL_PHOTO, STORY_CONTENT, STORY_DATE,STORY_READ},
                 STORY_CONTENT + " like ?", new String[]{"%" + token + "%"}, null, null, STORY_DATE + " DESC", null);
         ArrayList<Story> result = new ArrayList<>(c.getCount());
 
@@ -127,7 +127,7 @@ public class DB extends SQLiteOpenHelper {
 
     public ArrayList<Story> searchDates(String date) {
         Cursor c = readableDB.query(TB_STORY,
-                new String[]{STORY_ID, STORY_READ, STORY_PHOTO, STORY_FULL_PHOTO, STORY_CONTENT, STORY_DATE},
+                new String[]{STORY_ID, STORY_PHOTO, STORY_FULL_PHOTO, STORY_CONTENT, STORY_DATE,STORY_READ},
                 STORY_DATE + "=?", new String[]{date}, null, null, STORY_DATE + " DESC", null);
         ArrayList<Story> result = new ArrayList<>(c.getCount());
 
@@ -147,7 +147,7 @@ public class DB extends SQLiteOpenHelper {
 
     public Story getStory(String id) {
         Cursor c = readableDB.query(TB_STORY,
-                new String[]{STORY_ID, STORY_READ, STORY_PHOTO, STORY_FULL_PHOTO, STORY_CONTENT, STORY_DATE},
+                new String[]{STORY_ID, STORY_PHOTO, STORY_FULL_PHOTO, STORY_CONTENT, STORY_DATE,STORY_READ},
                 STORY_ID + "=?", new String[]{id}, null, null, null, null);
         Story story = null;
 

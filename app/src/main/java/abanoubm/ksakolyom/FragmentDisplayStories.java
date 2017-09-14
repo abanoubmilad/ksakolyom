@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -103,8 +102,8 @@ public class FragmentDisplayStories extends Fragment {
                     Utility.getPagingStories(getContext(), Utility.TAG_PREVIOUS)) != null)
                 mDB.addStories(stories);
 
-            if(stories!=null && stories.size()!=0 && getContext()!=null)
-                Utility.checkLastTodayStory(getContext(),stories.get(0).getDate());
+            if (stories != null && stories.size() != 0 && getContext() != null)
+                Utility.checkLastTodayStory(getContext(), stories.get(0).getDate());
 
             return stories;
         }
@@ -209,25 +208,24 @@ public class FragmentDisplayStories extends Fragment {
                 if (firstVisibleItem == 0 && !loading_previous && Utility.isNetworkAvailable(getContext()) && Utility.hasPaging(getContext(), Utility.TAG_PREVIOUS)) {
                     loading_previous = true;
                     new GetPreviousPagingTask().execute();
-                } else
-                    if (firstVisibleItem + visibleItemCount >= totalItemCount && !loading_next && Utility.hasPaging(getContext(), Utility.TAG_NEXT)) {
+                } else if (firstVisibleItem + visibleItemCount >= totalItemCount && !loading_next && Utility.hasPaging(getContext(), Utility.TAG_NEXT)) {
                     loading_next = true;
                     new GetNextPagingTask().execute();
                 }
             }
         });
-        previous =(SwipeRefreshLayout) root.findViewById(R.id.reload);
+        previous = (SwipeRefreshLayout) root.findViewById(R.id.reload);
         previous.setOnRefreshListener(
                 new SwipeRefreshLayout.OnRefreshListener() {
                     @Override
                     public void onRefresh() {
-                  //      Log.i("check","i'm in previous");
+                        //      Log.i("check","i'm in previous");
                         if (!loading_previous && Utility.isNetworkAvailable(getContext()) && !loading_next) {
                             loading_previous = true;
                             new GetPreviousPagingTask().execute();
-                       //     Log.i("check","loading true");
+                            //     Log.i("check","loading true");
 
-                        }else{
+                        } else {
                             previous.setRefreshing(false);
                         }
                     }

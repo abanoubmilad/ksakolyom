@@ -122,7 +122,7 @@ public class Utility {
                 return null;
             JSONObject subObj;
             String picture;
-            //  String fullPicture;
+          String fullPicture;
             String msg;
             subObj = array.getJSONObject(0);
             try {
@@ -130,17 +130,17 @@ public class Utility {
             } catch (JSONException e) {
                 picture = "";
             }
-//            try {
-//                fullPicture = subObj.getString("full_picture");
-//            } catch (JSONException e) {
-//                fullPicture = "";
-//            }
+            try {
+                fullPicture = subObj.getString("full_picture");
+            } catch (JSONException e) {
+                fullPicture = "";
+            }
             try {
                 msg = subObj.getString("message");
             } catch (JSONException e) {
                 msg = "";
             }
-            return new StoryList(subObj.getString("id"), picture,
+            return new StoryList(subObj.getString("id"), picture,fullPicture,
                     msg,
                     subObj.getString("created_time").substring(0, 10));
 
@@ -301,9 +301,10 @@ public class Utility {
                 .setContentIntent(PendingIntent.getActivity(context,
                         0, intent, 0));
 
-        if (story.getPhoto().length() > 0)
+        if (story.getFullPhoto().length() > 0)
+            n.setLargeIcon(getBitmapFromURL(story.getFullPhoto()));
+        else if (story.getPhoto().length() > 0)
             n.setLargeIcon(getBitmapFromURL(story.getPhoto()));
-
 
         NotificationManager nm = (NotificationManager) context
                 .getSystemService(Context.NOTIFICATION_SERVICE);

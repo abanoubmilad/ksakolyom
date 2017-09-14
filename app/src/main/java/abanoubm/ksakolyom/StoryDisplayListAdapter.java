@@ -52,7 +52,9 @@ public class StoryDisplayListAdapter extends ArrayAdapter<StoryList> {
         }
 
 
-        if (story.getPhoto().length() > 0)
+        if (story.getFullPhoto().length() > 0)
+            Picasso.with(getContext()).load(story.getFullPhoto()).placeholder(R.mipmap.ic_def).into(holder.photo);
+        else if (story.getPhoto().length() > 0)
             Picasso.with(getContext()).load(story.getPhoto()).placeholder(R.mipmap.ic_def).into(holder.photo);
         else
             holder.photo.setImageResource(R.mipmap.ic_def);
@@ -84,7 +86,7 @@ public class StoryDisplayListAdapter extends ArrayAdapter<StoryList> {
         for (Story story : list) {
             offset = Math.min(story.getContent().length(), 25);
             super.add(new StoryList(story.getId(),
-                    story.getPhoto(), story.getContent().substring(0,
+                    story.getPhoto(), story.getFullPhoto(), story.getContent().substring(0,
                     Math.max(offset, story.getContent().indexOf(' ', offset))), story.getDate()));
         }
         setNotifyOnChange(true);
@@ -97,7 +99,7 @@ public class StoryDisplayListAdapter extends ArrayAdapter<StoryList> {
         for (Story story : list) {
             offset = Math.min(story.getContent().length(), 25);
             super.add(new StoryList(story.getId(),
-                    story.getPhoto(), story.getContent().substring(0,
+                    story.getPhoto(), story.getFullPhoto(), story.getContent().substring(0,
                     Math.max(offset, story.getContent().indexOf(' ', offset))), story.getDate()));
         }
         setNotifyOnChange(true);
@@ -112,7 +114,7 @@ public class StoryDisplayListAdapter extends ArrayAdapter<StoryList> {
         for (int i = length - 1; i > -1; i--) {
             story = list.get(i);
             offset = Math.min(story.getContent().length(), 25);
-            super.insert(new StoryList(story.getId(), story.getPhoto(), story.getContent().substring(0,
+            super.insert(new StoryList(story.getId(), story.getPhoto(), story.getFullPhoto(), story.getContent().substring(0,
                     Math.max(offset, story.getContent().indexOf(' ', offset))), story.getDate()), 0);
         }
         setNotifyOnChange(true);

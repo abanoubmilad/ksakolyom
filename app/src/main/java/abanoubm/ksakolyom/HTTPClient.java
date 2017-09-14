@@ -21,11 +21,12 @@ public class HTTPClient {
             response = client.newCall(request).execute();
             return response.body().string();
         } catch (Exception e) {
-          //  e.printStackTrace();
+            //  e.printStackTrace();
             return null;
         }
 
     }
+
     public static String getTodaySearch() {
         Request request = new Request.Builder()
                 .url("https://graph.facebook.com/v2.7/208748925813135/feed?" +
@@ -57,7 +58,7 @@ public class HTTPClient {
             response = client.newCall(request).execute();
             return response.body().string();
         } catch (Exception e) {
-          //  e.printStackTrace();
+            //  e.printStackTrace();
             return null;
         }
 
@@ -73,7 +74,7 @@ public class HTTPClient {
             response = client.newCall(request).execute();
             return response.body().string();
         } catch (Exception e) {
-          //  e.printStackTrace();
+            //  e.printStackTrace();
             return null;
         }
 

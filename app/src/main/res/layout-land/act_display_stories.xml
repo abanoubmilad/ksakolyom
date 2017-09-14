@@ -30,6 +30,7 @@
                 android:layout_weight="2" />
 
         </LinearLayout>
+
         <TextView
             android:id="@+id/footer"
             android:layout_width="match_parent"

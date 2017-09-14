@@ -16,7 +16,7 @@ public class MenuItemAdapter extends ArrayAdapter<String> {
 
     public MenuItemAdapter(Context context, ArrayList<String> arr) {
         super(context, 0, arr);
-            icons = context.getResources().obtainTypedArray(R.array.main_icons);
+        icons = context.getResources().obtainTypedArray(R.array.main_icons);
 
     }
 

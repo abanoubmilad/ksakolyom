@@ -1,13 +1,8 @@
 package abanoubm.ksakolyom;
 
 import android.content.Intent;
-import android.util.Log;
-import android.webkit.URLUtil;
 
 import com.commonsware.cwac.wakeful.WakefulIntentService;
-
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 
 public class BackgroundService extends WakefulIntentService {
 

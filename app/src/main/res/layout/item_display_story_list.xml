@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:scaleType="fitCenter"
             android:adjustViewBounds="true"
-            android:src="@mipmap/ic_def"/>
+            android:src="@mipmap/ic_def" />
 
 
         <TextView

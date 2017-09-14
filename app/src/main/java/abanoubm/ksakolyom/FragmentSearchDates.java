@@ -2,7 +2,6 @@ package abanoubm.ksakolyom;
 
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -44,7 +43,7 @@ public class FragmentSearchDates extends Fragment {
 
         @Override
         protected void onPostExecute(ArrayList<Story> result) {
-            if(getContext()==null)
+            if (getContext() == null)
                 return;
             mAdapter.clearThenAddAll(result);
             if (result.size() == 0)
@@ -55,6 +54,7 @@ public class FragmentSearchDates extends Fragment {
         }
 
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

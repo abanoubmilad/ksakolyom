@@ -4,17 +4,16 @@
     android:paddingRight="10dp">
 
 
-    <android.support.v4.widget.SwipeRefreshLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/reload"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"      >
+        android:layout_height="match_parent">
 
-    <ListView
-        android:id="@+id/list"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:verticalScrollbarPosition="left" />
+        <ListView
+            android:id="@+id/list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:verticalScrollbarPosition="left" />
     </android.support.v4.widget.SwipeRefreshLayout>
 
 

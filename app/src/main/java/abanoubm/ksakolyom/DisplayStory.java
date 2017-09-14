@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 public class DisplayStory extends AppCompatActivity {
-    private static final String ARG_ID= "id";
+    private static final String ARG_ID = "id";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

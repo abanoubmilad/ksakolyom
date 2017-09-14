@@ -1,9 +1,7 @@
 package abanoubm.ksakolyom;
 
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.net.wifi.WifiManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -27,7 +25,7 @@ public class FragmentDisplayStory extends Fragment {
     private static final String ARG_ID = "id";
     private boolean isFav = false;
 
-    private TextView content, dateView, shares, likes, comments,shareVia;
+    private TextView content, dateView, shares, likes, comments, shareVia;
     private ImageView photo, fav, check;
 
     private DB mDB;
@@ -127,7 +125,7 @@ public class FragmentDisplayStory extends Fragment {
                 shareIntent.setType("text/plain");
                 shareIntent.putExtra(android.content.Intent.EXTRA_TEXT,
                         content.getText().toString());
-            startActivity(
+                startActivity(
                         Intent.createChooser(shareIntent, "share via"));
             }
         });
@@ -153,25 +151,19 @@ public class FragmentDisplayStory extends Fragment {
 
         @Override
         protected void onPostExecute(Void story) {
-            if(getContext()==null)
+            if (getContext() == null)
                 return;
 
-            if (((WifiManager) getContext().getApplicationContext().getSystemService(Context.WIFI_SERVICE)).isWifiEnabled()) {
-                if (mStory.getFullPhoto().length() != 0)
-                    Picasso.with(getContext()).load(mStory.getFullPhoto()).placeholder(R.mipmap.ic_def).into(photo);
-                else if (mStory.getPhoto().length() != 0)
-                    Picasso.with(getContext()).load(mStory.getPhoto()).placeholder(R.mipmap.ic_def).into(photo);
-                else
-                    photo.setImageResource(R.mipmap.ic_def);
-            } else {
-                if (mStory.getPhoto().length() != 0)
-                    Picasso.with(getContext()).load(mStory.getPhoto()).placeholder(R.mipmap.ic_def).into(photo);
-                else
-                    photo.setImageResource(R.mipmap.ic_def);
-            }
+            if (mStory.getFullPhoto().length() != 0)
+                Picasso.with(getContext()).load(mStory.getFullPhoto()).placeholder(R.mipmap.ic_def).into(photo);
+            else if (mStory.getPhoto().length() != 0)
+                Picasso.with(getContext()).load(mStory.getPhoto()).placeholder(R.mipmap.ic_def).into(photo);
+            else
+                photo.setImageResource(R.mipmap.ic_def);
 
-            content.setText(mStory.getContent().replace(">>الآن تطبيق قصة كل يوم على جوجل بلاى","")
-                    .replace("https://play.google.com/store/apps/details?id=abanoubm.ksakolyom",""));
+
+            content.setText(mStory.getContent().replace(">>الآن تطبيق قصة كل يوم على جوجل بلاى", "")
+                    .replace("https://play.google.com/store/apps/details?id=abanoubm.ksakolyom", ""));
             try {
 
                 dateView.setText(new SimpleDateFormat("EEEE d - M - yyyy", new Locale("ar")).format(new SimpleDateFormat("yyyy-MM-dd").parse(mStory.getDate())));
@@ -179,7 +171,7 @@ public class FragmentDisplayStory extends Fragment {
                 dateView.setText(mStory.getDate());
             }
 
-        //    content.setText(mStory.getContent());
+            //    content.setText(mStory.getContent());
 
 
             if (mStory.getRead().equals("2")) {
@@ -207,7 +199,7 @@ public class FragmentDisplayStory extends Fragment {
 
         @Override
         protected void onPostExecute(String[] arr) {
-            if(getContext()==null)
+            if (getContext() == null)
                 return;
             if (arr != null) {
                 likes.setText(arr[0]);
@@ -238,7 +230,7 @@ public class FragmentDisplayStory extends Fragment {
 
         @Override
         protected void onPostExecute(Void story) {
-            if(getContext()==null)
+            if (getContext() == null)
                 return;
             if (isFav) {
                 fav.setImageResource(R.mipmap.ic_fav);

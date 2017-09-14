@@ -118,7 +118,7 @@
             android:padding="5dp"
             android:textColor="@color/black"
             android:textSize="@dimen/font_larger"
-            android:textIsSelectable="true"/>
+            android:textIsSelectable="true" />
 
         <TextView
             android:id="@+id/share_via"

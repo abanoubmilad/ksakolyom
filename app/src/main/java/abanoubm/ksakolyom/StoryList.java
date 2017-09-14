@@ -3,12 +3,14 @@ package abanoubm.ksakolyom;
 public class StoryList {
     private String id;
     private String photo;
+    private String fullPhoto;
     private String content;
     private String date;
 
-    public StoryList(String id, String photo, String content, String date) {
+    public StoryList(String id, String photo, String fullPhoto, String content, String date) {
         this.id = id;
         this.photo = photo;
+        this.fullPhoto = fullPhoto;
         this.content = content;
         this.date = date;
     }
@@ -22,14 +24,8 @@ public class StoryList {
     }
 
 
-
-
     public String getPhoto() {
         return photo;
-    }
-
-    public void setPhoto(String photo) {
-        this.photo = photo;
     }
 
     public String getContent() {
@@ -48,5 +44,8 @@ public class StoryList {
         this.date = date;
     }
 
+    public String getFullPhoto() {
+        return fullPhoto;
+    }
 
 }
