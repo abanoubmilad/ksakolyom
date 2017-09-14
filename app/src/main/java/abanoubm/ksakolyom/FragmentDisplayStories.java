@@ -37,6 +37,8 @@ public class FragmentDisplayStories extends Fragment {
 
         @Override
         protected ArrayList<Story> doInBackground(Void... params) {
+            if (getContext() == null)
+                return null;
             if (mDB == null)
                 mDB = DB.getInstant(getActivity());
 
@@ -84,11 +86,15 @@ public class FragmentDisplayStories extends Fragment {
 
         @Override
         protected void onPreExecute() {
+            if (getContext() == null)
+                return;
             previous.setRefreshing(true);
         }
 
         @Override
         protected ArrayList<Story> doInBackground(Void... params) {
+            if (getContext() == null)
+                return null;
             if (mDB == null)
                 mDB = DB.getInstant(getActivity());
 
@@ -96,6 +102,9 @@ public class FragmentDisplayStories extends Fragment {
             if (Utility.isNetworkAvailable(getContext()) && (stories =
                     Utility.getPagingStories(getContext(), Utility.TAG_PREVIOUS)) != null)
                 mDB.addStories(stories);
+
+            if(stories!=null && stories.size()!=0 && getContext()!=null)
+                Utility.checkLastTodayStory(getContext(),stories.get(0).getDate());
 
             return stories;
         }
@@ -122,6 +131,8 @@ public class FragmentDisplayStories extends Fragment {
 
         @Override
         protected ArrayList<Story> doInBackground(Void... params) {
+            if (getContext() == null)
+                return null;
             if (mDB == null)
                 mDB = DB.getInstant(getActivity());
 
